@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>API Dashboard</title>
+    <meta
+      name="description"
+      content="A display of eight APIs with their respective data and 
+        visualizations."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class ="header">
+    <h1 class="main-title">Welcome to my API Dashboard Showcase!</h1>
+    <p class="intro-paragraph">
+      This dashboard displays data from eight different APIs, each with its own
+      unique visualization. Explore the various sections to see the data in
+      action!    </p>
+    </header>
+    <div class="grid-container">
+      <section class="grid-item" id="cocktail-api">
+        <h2>🍹Random Cocktail 🍸</h2>
+        <button id="getCocktailInfo">Get Cocktail Info</button>
+        <div class="output" id="cocktail-output"></div>
+      </section>
+
+      <section class="grid-item" id="dnd-api">
+        <h2>⚔️ Random D&D Alignment</h2>
+        <button id="getDndAlignments">Get Alignment</button>
+        <div class="output" id="dnd-output"></div>
+      </section>
+
+      <section class="grid-item" id="weather-api">
+        <h2>☀️ Weather Info</h2>
+        <button id="getWeather">Get Weather</button>
+        <div class="output" id="weather-output"></div>
+      </section>
+
+      <section class="grid-item" id="podcast-api">
+        <h2>🎤 Random Podcast</h2>
+        <button id="getPodcastInfo">Get Info</button>
+        <div class="output" id="podcast-output"></div>
+      </section>
+
+      <section class="grid-item" id="car-api">
+        <h2>🚗 Random Car</h2>
+        <button id="getCarInfo">Get Info</button>
+        <div class="output" id="car-output"></div>
+      </section>
+
+      <section class="grid-item" id="github-api">
+        <h2>🧑‍💻 GitHub User</h2>
+        <button id="getGitHubUser">Get User</button>
+        <div class="output" id="github-output"></div>
+      </section>
+
+      <section class="grid-item" id="pokemon-api">
+        <h2>📱 Get Pokedex Info</h2>
+        <button id="getPokemonInfo">Get Info</button>
+        <div class="output" id="pokemon-output"></div>
+      </section>
+
+      <section class="grid-item" id="meme-api">
+        <h2>😂 Get a Meme</h2>
+        <button id="getMemeInfo">Show One</button>
+        <div class="output" id="meme-output"></div>
+      </section>
+    </div>
+    <script src="script.js" async defer></script>
+  </body>
+</html>
