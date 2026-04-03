@@ -7,6 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const weatherContainer = document.getElementById('weather-output');
   const coffeeButton = document.getElementById('getCoffee');
   const coffeeContainer = document.getElementById('coffee-output');
+  const lotrButton = document.getElementById('getLotRInfo');
+  const lotrContainer = document.getElementById('lotr-output');
+  const githubButton = document.getElementById('getGitHubUser');
+  const githubContainer = document.getElementById('github-output');
+  const pokemonButton = document.getElementById('getPokemonInfo');
+  const pokemonContainer = document.getElementById('pokemon-output');
+  const memeButton = document.getElementById('getMemeInfo');
+  const memeContainer = document.getElementById('meme-output'); 
 
   async function getCocktailInfo() {
     cocktailContainer.textContent = 'Loading...';
@@ -129,32 +137,113 @@ document.addEventListener('DOMContentLoaded', () => {
   async function getCoffeeInfo() {
     coffeeContainer.textContent = 'Loading...';
     try {
-      const proxyUrl = 'https://thingproxy.freeboard.io/fetch/';
-      const targetUrl = 'https://coffee.alexflipnote.dev/random.json';
-      const response = await fetch(`${proxyUrl}${targetUrl}`);
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const response = await fetch(`https://coffee.alexflipnote.dev/random.json`);
       const data = await response.json();
 
       coffeeContainer.innerHTML = `<h3>Here's your random coffee! ☕</h3>`;
 
       const img = document.createElement('img');
       img.src = data.file;
-      img.alt = 'Coffee';
       img.style.maxWidth = '100%';
       img.style.height = 'auto';
       coffeeContainer.appendChild(img);
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Error fetching coffee data:', error);
+      coffeeContainer.textContent = 'Failed to load coffee data ☹️';
+    }
+  }
 
-      try {
-        coffeeContainer.innerHTML = `
-          <h3>Here's your random coffee! ☕</h3>
-          <p>Sorry, the coffee API is currently unavailable. Here's a coffee image instead:</p>
-          <img src="https://picsum.photos/400/300?random&coffee" alt="Coffee" style="max-width: 100%; height: auto;">
-        `;
-      } catch (fallbackError) {
-        coffeeContainer.textContent = 'Failed to load coffee data ☹️';
+  async function getLotRInfo() {
+    lotrContainer.textContent = 'Loading...';
+    try {
+      const apiKey = 'b5_jY6rRADyjxa5K41Wr';
+      const response = await fetch('https://the-one-api.dev/v2/quotes/random/', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const quote = await response.json();
+      
+      if (!quote.dialog) {
+        throw new Error('No quote data received from API');
       }
+
+      lotrContainer.innerHTML = `
+        <h3>Your Lord of the Rings Quote</h3>
+        <blockquote>
+          <p>"${quote.dialog}"</p>
+        </blockquote>
+      `;
+    } catch (error) {
+      console.error('Error fetching LotR quote:', error);
+      lotrContainer.textContent = 'Failed to load quote ☹️';
+    }
+  }
+
+  async function getGitHubUser() {
+    githubContainer.textContent = 'Loading...';
+    try {
+      const users = ['octocat', 'torvalds', 'gvanrossum', 'brendaneich', 'yyx990803'];
+      const randomUser = users[Math.floor(Math.random() * users.length)];
+      const response = await fetch(`https://api.github.com/users/${randomUser}`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+
+      githubContainer.innerHTML = `
+        <h3>GitHub User: ${data.login}</h3>
+        <p><strong>Name:</strong> ${data.name || 'N/A'}</p>
+        <p><strong>Public Repositories:</strong> ${data.public_repos}</p>
+        <p><strong>Followers:</strong> ${data.followers}</p>
+      `;
+    } catch (error) {
+      console.error('Error fetching GitHub user data:', error);
+      githubContainer.textContent = 'Failed to load GitHub user data ☹️';
+    }
+  }
+
+  async function getPokemonInfo() {
+    pokemonContainer.textContent = 'Loading...';
+    try {
+      const randomPokemonId = Math.floor(Math.random() * 898) + 1;
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+
+      pokemonContainer.innerHTML = `
+        <h3>${data.name.charAt(0).toUpperCase() + data.name.slice(1)}</h3>
+        <img src="${data.sprites.front_default}" alt="${data.name}" />
+        <p><strong>Height:</strong> ${data.height}</p>
+        <p><strong>Weight:</strong> ${data.weight}</p>
+      `;
+    } catch (error) {
+      console.error('Error fetching Pokémon data:', error);
+      pokemonContainer.textContent = 'Failed to load Pokémon data ☹️';
+    }
+  }
+
+  async function getMemeInfo() {
+    memeContainer.textContent = 'Loading...';
+    try {
+      const response = await fetch('https://api.imgflip.com/get_memes');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+
+      if (!data.data || data.data.memes.length === 0) {
+        throw new Error('No meme data received from API');
+      }
+
+      const randomMeme = data.data.memes[Math.floor(Math.random() * data.data.memes.length)];
+      memeContainer.innerHTML = `
+        <h3>Your Random Meme</h3>
+        <img src="${randomMeme.url}" alt="Random Meme" />
+      `;
+    } catch (error) {
+      console.error('Error fetching meme data:', error);
+      memeContainer.textContent = 'Failed to load meme data ☹️';
     }
   }
 
@@ -162,6 +251,10 @@ document.addEventListener('DOMContentLoaded', () => {
   dndButton.addEventListener('click', getCharacter);
   weatherButton.addEventListener('click', getWeather);
   coffeeButton.addEventListener('click', getCoffeeInfo);
+  lotrButton.addEventListener('click', getLotRInfo);
+  githubButton.addEventListener('click', getGitHubUser);
+  pokemonButton.addEventListener('click', getPokemonInfo);
+  memeButton.addEventListener('click', getMemeInfo);
 
 });
 
